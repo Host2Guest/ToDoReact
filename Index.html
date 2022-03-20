@@ -54,20 +54,25 @@
        [
       {id:1,title:"new item",created:"",doby:"",status:"not started"},
       {id:2,title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
-      {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"}
+      {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"},
+      {id:4,title:"BBMP Bill",created:"10-03-2022",doby:"22-04-2022",status:"not started"}
       ]
        );
      
     const deleteTodo =(delid)=> {
-      console.log(delid);
-      setTodos(todos.filter(item=>item.id != delid))
+      let filtered =todos.filter(item=>item.id != delid);
+      setTodos(filtered);
     }
-  
+
+    const completedTodo = (finishedid) => {
+      let completed = todos.map(item=>{(item.id ==finishedid)?item.status="Completed":null; return item } )
+      setTodos(completed);
+    }
 
         return (
         <div>
                 <h1 className="head">ToDo List version 1</h1>
-                <TodosContext.Provider value={({todos,deleteTodo})}>
+                <TodosContext.Provider value={({todos,deleteTodo,completedTodo})}>
                 <Newtodo />
                 <Display />
                 </TodosContext.Provider >
@@ -104,7 +109,7 @@
         <div className="display">
           <h3>All tracked to do items</h3>
           <table>
-            <tr>
+            <tr key="1212121">
               <th>ID</th>
               <th>Title</th>
               <th>Created Date</th>
@@ -123,7 +128,7 @@
                       Object.values(v).map(z=><td key={v.id}>{z}</td>)
                     }
                       <td>
-                        <a onClick={()=>{alert(v.id)}}>Completed</a>  
+                        <a onClick={()=>{value.completedTodo(v.id)}}>Completed</a>  
                         <a onClick={()=>{value.deleteTodo(v.id)}}>Delete</a>
                       </td>
                   </tr>
