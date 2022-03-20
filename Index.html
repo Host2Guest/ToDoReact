@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="description" content="ToDoReactw/useContext">
+<meta name="description" content="ToDoReactw/useContext, passing method handlers">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,12 +57,17 @@
       {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"}
       ]
        );
-       
-      
+     
+    const deleteTodo =(delid)=> {
+      console.log(delid);
+      setTodos(todos.filter(item=>item.id != delid))
+    }
+  
+
         return (
         <div>
                 <h1 className="head">ToDo List version 1</h1>
-                <TodosContext.Provider value={todos}>
+                <TodosContext.Provider value={({todos,deleteTodo})}>
                 <Newtodo />
                 <Display />
                 </TodosContext.Provider >
@@ -112,14 +117,14 @@
               {value => 
               <tbody>
                { 
-                 value.map(v=>(
-                    <tr>
+                 value.todos.map(v=>(
+                    <tr key={v.title}>
                     {
                       Object.values(v).map(z=><td key={v.id}>{z}</td>)
                     }
                       <td>
                         <a onClick={()=>{alert(v.id)}}>Completed</a>  
-                        <a onClick={()=>{alert(v.id)}}>Delete</a>
+                        <a onClick={()=>{value.deleteTodo(v.id)}}>Delete</a>
                       </td>
                   </tr>
                   ))
