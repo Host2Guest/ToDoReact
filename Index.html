@@ -8,28 +8,63 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .head{
+      color:white;
+      background-color:dimgray;
+      padding:10px 0;
+      text-align:center;
+    }
+    .new{
+      border:1px solid blue;
+      padding:10px 20px;
+    }
+    .new > * {
+      margin-left:5px;
+      margin-right:10px
+    }
+  </style>
 </head>
 <body>
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState } = React;
+        const { useState,useContext } = React;
        const { render } = ReactDOM;
     
-    function Test() {
-       const [a,setA ] = useState(0);
+    function App() {
+       const [todos,setTodos ] = useState({});
     
         return (
         <div>
-                <h1>  Incrementor test </h1>
-                <h1>{a}</h1>
-                <button onClick={()=>setA(a+1)}>+</button>
-                <button onClick={()=>setA(a-1)}>-</button>        
+                <h1 className="head">ToDo List version 1</h1>
+                <Newtodo />
         </div>
         )
     }
     
-    ReactDOM.render(<Test /> ,document.getElementById('root'));
+    function Newtodo() {
+      return (
+        <div className="new">
+          Title
+          <input name="title" type="text" />
+          Created
+          <input name="created" type="date" />
+          DoBy
+          <input name="created" type="date" />
+          Status
+          <select>
+            <option value="Yettostart">Not started </option>
+            <option value="Inprogress">In progress </option>
+            <option value="Completed">Completed </option>
+          </select>
+          <button>Save New</button>
+        </div>
+      )
+    }
+    
+    
+    ReactDOM.render(<App /> ,document.getElementById('root'));
 
     </script>
 
