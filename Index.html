@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="description" content="ToDoReact">
+<meta name="description" content="ToDoReactw/useContext">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,17 +45,28 @@
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState,useContext } = React;
+       const { useState,createContext } = React;
        const { render } = ReactDOM;
+       const TodosContext = createContext([]);
     
     function App() {
-       const [todos,setTodos ] = useState({title:"new item",created:"",doby:"",status:"not started"});
-    
+       const [todos,setTodos ] = useState(
+       [
+      {id:1,title:"new item",created:"",doby:"",status:"not started"},
+      {id:2,title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
+      {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"}
+      ]
+       );
+       
+      
         return (
         <div>
                 <h1 className="head">ToDo List version 1</h1>
+                <TodosContext.Provider value={todos}>
                 <Newtodo />
                 <Display />
+                </TodosContext.Provider >
+                
         </div>
         )
     }
@@ -82,31 +93,41 @@
     
    
     function Display() {
-    
-      const temp=[
-      {title:"new item",created:"",doby:"",status:"not started"},
-      {title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
-      {title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"}
-      ];
+
+
       return (
         <div className="display">
           <h3>All tracked to do items</h3>
           <table>
             <tr>
+              <th>ID</th>
               <th>Title</th>
               <th>Created Date</th>
               <th>Do By Date</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
-            {
-            temp.map(v=>(
-            <tr>
-            {
-              Object.values(v).map(z=><td>{z}</td>)
-            }
-            </tr>
-            ))
-            }
+ 
+            <TodosContext.Consumer>
+              {value => 
+              <tbody>
+               { 
+                 value.map(v=>(
+                    <tr>
+                    {
+                      Object.values(v).map(z=><td key={v.id}>{z}</td>)
+                    }
+                      <td>
+                        <a onClick={()=>{alert(v.id)}}>Completed</a>  
+                        <a onClick={()=>{alert(v.id)}}>Delete</a>
+                      </td>
+                  </tr>
+                  ))
+                }  
+                </tbody>
+              }
+            </TodosContext.Consumer> 
+
           </table>
         </div>
       )
