@@ -17,11 +17,16 @@
     }
     .new{
       border:1px solid blue;
+      margin-bottom:20px;
       padding:10px 20px;
     }
     .new > * {
       margin-left:5px;
       margin-right:10px
+    }
+    .display{
+      border:1px solid blue;
+      padding:10px 20px;
     }
   </style>
 </head>
@@ -33,12 +38,13 @@
        const { render } = ReactDOM;
     
     function App() {
-       const [todos,setTodos ] = useState({});
+       const [todos,setTodos ] = useState({title:"new item",created:"",doby:"",status:"not started"});
     
         return (
         <div>
                 <h1 className="head">ToDo List version 1</h1>
                 <Newtodo />
+                <Display />
         </div>
         )
     }
@@ -63,6 +69,29 @@
       )
     }
     
+   
+    function Display() {
+    
+      const temp=[
+      {title:"new item",created:"",doby:"",status:"not started"},
+      {title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
+      {title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"}
+      ];
+      return (
+        <div className="display">
+          <h3>All tracked to do items</h3>
+          {
+          temp.map(v=>(
+          <tr>
+          {
+            Object.values(v).map(z=><td>{z}</td>)
+          }
+          </tr>
+          ))
+          }
+        </div>
+      )
+    }
     
     ReactDOM.render(<App /> ,document.getElementById('root'));
 
