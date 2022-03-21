@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="description" content="ToDoReactw/useContext, passing method handlers">
+<meta name="description" content="ToDoReactw/useContext, passing method handlersand ref to pass form values">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@
     <div id="root"></div>
     
     <script type="text/babel">
-       const { useState,createContext } = React;
+       const { useState,createContext , useRef } = React;
        const { render } = ReactDOM;
        const TodosContext = createContext([]);
     
@@ -58,7 +58,13 @@
       {id:4,title:"BBMP Bill",created:"10-03-2022",doby:"22-04-2022",status:"not started"}
       ]
        );
-     
+
+    const addTodo =(newtodo)=>{
+      console.log(newtodo);
+      setTodos(prev=>[...prev,...newtodo]);
+      
+    }
+
     const deleteTodo =(delid)=> {
       let filtered =todos.filter(item=>item.id != delid);
       setTodos(filtered);
@@ -72,7 +78,7 @@
         return (
         <div>
                 <h1 className="head">ToDo List version 1</h1>
-                <TodosContext.Provider value={({todos,deleteTodo,completedTodo})}>
+                <TodosContext.Provider value={({todos,deleteTodo,completedTodo,addTodo})}>
                 <Newtodo />
                 <Display />
                 </TodosContext.Provider >
@@ -82,21 +88,34 @@
     }
     
     function Newtodo() {
+    const todotitle=useRef(null);
+    const todocreated=useRef(null);
+    const tododoby=useRef(null);
+    const todostatus=useRef(null);
+    
       return (
         <div className="new">
-          Title
-          <input name="title" type="text" />
-          Created
-          <input name="created" type="date" />
-          DoBy
-          <input name="created" type="date" />
-          Status
-          <select>
-            <option value="Yettostart">Not started </option>
-            <option value="Inprogress">In progress </option>
-            <option value="Completed">Completed </option>
-          </select>
-          <button>Save New</button>
+        <TodosContext.Consumer>
+          { value=>
+          <div>  
+            Title
+            <input name="title" type="text" ref={todotitle}/>
+            Created
+            <input name="created" type="date" ref={todocreated}/>
+            DoBy
+            <input name="created" type="date" ref={tododoby}/>
+            Status
+            <select ref={todostatus}>
+              <option value="Yettostart">Not started </option>
+              <option value="Inprogress">In progress </option>
+              <option value="Completed">Completed </option>
+            </select>
+            <button onClick={
+              ()=>value.addTodo([{id:22,title:todotitle.current.value,created:todocreated.current.value,doby:tododoby.current.value,status:todostatus.current.value}])
+            }>Save New</button>
+          </div>
+          }
+          </TodosContext.Consumer>
         </div>
       )
     }
