@@ -45,19 +45,12 @@
     <div id="root"></div>
     
     <script type="text/babel">
-       const { useState,createContext , useRef } = React;
+       const { useState, useEffect, createContext , useRef } = React;
        const { render } = ReactDOM;
        const TodosContext = createContext([]);
     
     function App() {
-       const [todos,setTodos ] = useState(
-       [
-      {id:1,title:"new item",created:"",doby:"",status:"not started"},
-      {id:2,title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
-      {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"},
-      {id:4,title:"BBMP Bill",created:"10-03-2022",doby:"22-04-2022",status:"not started"}
-      ]
-       );
+       const [todos,setTodos ] = useState([]);
 
     const addTodo =(newtodo)=>{
       console.log(newtodo);
@@ -74,6 +67,29 @@
       let completed = todos.map(item=>{(item.id ==finishedid)?item.status="Completed":null; return item } )
       setTodos(completed);
     }
+
+    useEffect(()=>{
+        if (localStorage.getItem('todoReact') == null) {
+            localStorage.setItem('todoReact',JSON.stringify([
+              {id:1,title:"new item",created:"",doby:"",status:"not started"},
+              {id:2,title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
+              {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"},
+              {id:4,title:"BBMP Bill",created:"10-03-2022",doby:"22-04-2022",status:"not started"}
+            ]))
+        }
+        if (localStorage.getItem('todoReact') !== null) {
+          setTodos(
+            JSON.parse(localStorage.getItem('todoReact'))
+          )
+        }
+
+      }
+    ,[])
+
+    useEffect(()=>{
+    return localStorage.setItem('todoReact',JSON.stringify(todos))
+    }
+    )
 
         return (
         <div>
@@ -106,8 +122,8 @@
             <input name="created" type="date" ref={tododoby}/>
             Status
             <select ref={todostatus}>
-              <option value="Yettostart">Not started </option>
-              <option value="Inprogress">In progress </option>
+              <option value="Yet to start">Not started </option>
+              <option value="In progress">In progress </option>
               <option value="Completed">Completed </option>
             </select>
             <button onClick={
