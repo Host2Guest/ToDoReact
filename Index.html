@@ -137,9 +137,14 @@
     const showCompl = useRef(null);  
     const showDel = useRef(null);
 
+    const [remCompleted,setRemCompleted]=useState(false);
+    const [remDeleted,setRemDeletedd]=useState(false);
+
       return (
         <div className="display">
-          <h3>All tracked to do items</h3><input type="checkbox" ref={showCompl}/>Show Completed<input type="checkbox" ref={showDel}/>Show Deleted
+          <h3>All tracked to do items</h3>
+          <input type="checkbox" ref={showCompl} checked={remCompleted} onClick={()=>setRemCompleted(!remCompleted)}/>Remove Completed
+          <input type="checkbox" ref={showDel} checked={remDeleted} onClick={()=>setRemDeletedd(!remDeleted)}/>Remove Deleted
           <table>
             <tr key="1212121">
               <th>ID</th>
@@ -154,7 +159,7 @@
               {value => 
               <tbody>
                { 
-                 value.todos.map(v=>(
+                value.todos.map(v=>(
                     <tr key={v.title}>
                     {
                       Object.values(v).map(z=><td key={v.id}>{z}</td>)
