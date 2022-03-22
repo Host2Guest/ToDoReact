@@ -70,12 +70,7 @@
 
     useEffect(()=>{
         if (localStorage.getItem('todoReact') == null) {
-            localStorage.setItem('todoReact',JSON.stringify([
-              {id:1,title:"new item",created:"",doby:"",status:"not started"},
-              {id:2,title:"Boring",created:"20-03-2022",doby:"24-03-2022",status:"not started"},
-              {id:3,title:"Elec Bill",created:"20-03-2022",doby:"22-03-2022",status:"not started"},
-              {id:4,title:"BBMP Bill",created:"10-03-2022",doby:"22-04-2022",status:"not started"}
-            ]))
+            localStorage.setItem('todoReact',JSON.stringify([]))
         }
         if (localStorage.getItem('todoReact') !== null) {
           setTodos(
@@ -116,8 +111,8 @@
           <div>  
             Title
             <input name="title" type="text" ref={todotitle}/>
-            Created
-            <input name="created" type="date" ref={todocreated}/>
+            {/*Created
+            <input name="created" type="date" ref={todocreated}/> */}
             DoBy
             <input name="created" type="date" ref={tododoby}/>
             Status
@@ -127,7 +122,8 @@
               <option value="Completed">Completed </option>
             </select>
             <button onClick={
-              ()=>value.addTodo([{id:22,title:todotitle.current.value,created:todocreated.current.value,doby:tododoby.current.value,status:todostatus.current.value}])
+              // ()=>value.addTodo([{id:22,title:todotitle.current.value,created:todocreated.current.value,doby:tododoby.current.value,status:todostatus.current.value}])
+              ()=>value.addTodo([{id:22,title:todotitle.current.value,created:(new Date()).toLocaleDateString(),doby: (new Date(tododoby.current.value)).toLocaleDateString(),status:todostatus.current.value}])
             }>Save New</button>
           </div>
           }
