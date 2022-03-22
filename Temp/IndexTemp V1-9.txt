@@ -132,13 +132,10 @@
     
    
     function Display() {
-      const hideCompchk = useRef(null);
-      const [hideCompleted,sethideCompleted] = useState(false);
-
+      
       return (
         <div className="display">
           <h3>All tracked to do items</h3>
-          <input type="checkbox" ref={hideCompchk} onChange={()=>sethideCompleted(!hideCompleted)}/> Hide Completed
           <table>
             <tr key="1212121">
               <th>ID</th>
@@ -153,7 +150,7 @@
               {value => 
               <tbody>
                { 
-                value.todos.filter(com=>hideCompleted?!(com.status=="Completed"):true).sort((d1,d2)=>(new Date(d1.doby))-(new Date(d2.doby))).map(v=>( 
+                value.todos.sort((d1,d2)=>(new Date(d1.doby))-(new Date(d2.doby))).map(v=>( 
                     <tr key={v.title}>
                     {
                       Object.values(v).map(z=><td key={v.id}>{z}</td>)
