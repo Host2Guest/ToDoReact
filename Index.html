@@ -21,7 +21,7 @@
       margin-bottom:20px;
       padding:10px 20px;
     }
-    .new > * {
+    .new * {
       margin-left:5px;
       margin-right:10px
     }
@@ -134,11 +134,12 @@
     
    
     function Display() {
-
+    const showCompl = useRef(null);  
+    const showDel = useRef(null);
 
       return (
         <div className="display">
-          <h3>All tracked to do items</h3>
+          <h3>All tracked to do items</h3><input type="checkbox" ref={showCompl}/>Show Completed<input type="checkbox" ref={showDel}/>Show Deleted
           <table>
             <tr key="1212121">
               <th>ID</th>
