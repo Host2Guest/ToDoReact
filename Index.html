@@ -121,8 +121,7 @@
               <option value="Completed">Completed </option>
             </select>
             <button onClick={
-              // ()=>value.addTodo([{id:22,title:todotitle.current.value,created:todocreated.current.value,doby:tododoby.current.value,status:todostatus.current.value}])
-              ()=>value.addTodo([{id:(Date.now()),title:todotitle.current.value,created:(new Date()).toLocaleDateString(),doby: (new Date(tododoby.current.value)).toLocaleDateString(),status:todostatus.current.value}])
+              ()=>value.addTodo([{id:(Date.now()),title:todotitle.current.value,created:(new Date()).toDateString(),doby: (new Date(tododoby.current.value)).toDateString(),status:todostatus.current.value}])
             }>Save New</button>
           </div>
           }
@@ -133,7 +132,7 @@
     
    
     function Display() {
-
+      
       return (
         <div className="display">
           <h3>All tracked to do items</h3>
@@ -151,14 +150,14 @@
               {value => 
               <tbody>
                { 
-                value.todos.map(v=>( 
+                value.todos.sort((d1,d2)=>(new Date(d1.doby))-(new Date(d2.doby))).map(v=>( 
                     <tr key={v.title}>
                     {
                       Object.values(v).map(z=><td key={v.id}>{z}</td>)
                     }
                       <td>
-                        <a onClick={()=>{value.completedTodo(v.id)}}>Completed</a>  
-                        <a onClick={()=>{value.deleteTodo(v.id)}}>Delete</a>
+                        <a onClick={()=>{value.completedTodo(v.id)}}>Completed</a> / 
+                        <a onClick={()=>{value.deleteTodo(v.id)}}> Delete</a>
                       </td>
                   </tr>
                   ))
